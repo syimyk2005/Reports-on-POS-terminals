@@ -8,21 +8,7 @@ import posterminal.posterminal.repository.AccountRepository;
 @Service
 public class TransactionService {
 
-    @Autowired
-    private AccountRepository accountRepository;
-
-    @Transactional
-    public String transferMoney(String fromAccountName, String toAccountName, double amount) {
-        Account fromAccount = accountRepository.findByName(fromAccountName);
-        Account toAccount = accountRepository.findByName(toAccountName);
-
-        if (fromAccount == null || toAccount == null) {
-            throw new IllegalArgumentException("Один из счетов не найден");
-        }
-
-        if (fromAccount.getBalance() < amount) {
-            throw new IllegalArgumentException("Недостаточно средств для перевода");
-        }
+    private final AccountRepository accountRepository;
 
         fromAccount.withdraw(amount);
         toAccount.deposit(amount);
