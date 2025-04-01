@@ -2,8 +2,6 @@ package posterminal.posterminal.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import posterminal.posterminal.model.Account;
 import posterminal.posterminal.repository.AccountRepository;
 
 @Service
