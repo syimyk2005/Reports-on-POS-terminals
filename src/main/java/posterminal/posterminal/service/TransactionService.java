@@ -10,8 +10,6 @@ public class TransactionService {
 
     private final AccountRepository accountRepository;
 
-        fromAccount.withdraw(amount);
-        toAccount.deposit(amount);
 
         accountRepository.save(fromAccount);
         accountRepository.save(toAccount);
