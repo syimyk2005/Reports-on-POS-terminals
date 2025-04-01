@@ -1,6 +1,6 @@
 package posterminal.posterminal.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import posterminal.posterminal.model.Account;
