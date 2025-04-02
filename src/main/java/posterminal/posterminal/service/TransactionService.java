@@ -2,19 +2,14 @@ package posterminal.posterminal.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import posterminal.posterminal.repository.AccountRepository;
+import posterminal.posterminal.repository.BankScoreRepository;
 
 @RequiredArgsConstructor
 @Service
 public class TransactionService {
 
-    private final AccountRepository accountRepository;
+    private final BankScoreRepository accountRepository;
 
 
-        accountRepository.save(fromAccount);
-        accountRepository.save(toAccount);
-
-        return "Транзакция успешно выполнена";
-    }
 }
 

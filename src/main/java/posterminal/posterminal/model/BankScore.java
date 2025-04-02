@@ -1,6 +1,5 @@
 package posterminal.posterminal.model;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,19 +14,11 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Account {
+public class BankScore {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String number;
     private double balance;
-
-    public void deposit(double amount) {
-        this.balance += amount;
-    }
-
-    public void withdraw(double amount) {
-        this.balance -= amount;
-    }
+    private Bank bank;
 }
-
