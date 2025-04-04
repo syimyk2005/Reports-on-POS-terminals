@@ -1,4 +1,4 @@
-package posterminal.posterminal.model;
+package posterminal.posterminal.enums;
 
 public enum BankEnum {
     BANK_A, BANK_B

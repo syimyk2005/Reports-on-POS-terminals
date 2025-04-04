@@ -3,7 +3,6 @@ package posterminal.posterminal.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import posterminal.posterminal.model.BankDto;
-import posterminal.posterminal.model.BankEnum;
 
 @RequiredArgsConstructor
 @Service

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import posterminal.posterminal.model.ABankScore;
 import posterminal.posterminal.model.BBankScore;
 import posterminal.posterminal.model.BankDto;
-import posterminal.posterminal.model.BankEnum;
+import posterminal.posterminal.enums.BankEnum;
 import posterminal.posterminal.repository.ABankScoreRepository;
 import posterminal.posterminal.repository.BBankScoreRepository;
 
