@@ -9,5 +9,4 @@ public class PosTerminalApplication {
     public static void main(String[] args) {
         SpringApplication.run(PosTerminalApplication.class, args);
     }
-
 }

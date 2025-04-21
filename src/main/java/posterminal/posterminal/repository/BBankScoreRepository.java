@@ -1,10 +1,18 @@
 package posterminal.posterminal.repository;
 
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import posterminal.posterminal.model.BBankScore;
 
+import java.util.Optional;
+
 @Repository
 public interface BBankScoreRepository extends JpaRepository<BBankScore, Long> {
-    BBankScore findByNumber(String number);
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT b FROM BBankScore b WHERE b.number = :number")
+    Optional<BBankScore> findByNumberForUpdate(@Param("number") String number);
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import posterminal.posterminal.enums.BankEnum;
+import posterminal.posterminal.enums.Curr;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,4 +22,6 @@ public class ABankScore {
     private double balance;
     @Enumerated(EnumType.STRING)
     private BankEnum bank;
+    @Enumerated(EnumType.STRING)
+    private Curr curr;
 }
