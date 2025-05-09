@@ -1,4 +1,4 @@
-package posterminal.posterminal.exception.customExceptions;
+package posterminal.exception.customExceptions;
 
 public class ScoreNotFoundException extends RuntimeException {
     public ScoreNotFoundException(String message){

@@ -4,6 +4,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/posterminal_db
     username: postgres
     password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
 server:
   port: 8080
 score:

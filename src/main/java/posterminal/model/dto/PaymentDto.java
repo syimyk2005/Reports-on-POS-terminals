@@ -1,26 +1,24 @@
-package posterminal.posterminal.model;
+package posterminal.model.dto;
 
-import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import posterminal.posterminal.enums.BankEnum;
-import posterminal.posterminal.enums.Curr;
+import posterminal.enums.BankEnum;
+import posterminal.enums.Curr;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @Getter
 @Setter
-public class BBankScore {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private double balance;
+public class PaymentDto {
+    private double amount;
     private String number;
     @Enumerated(EnumType.STRING)
     private BankEnum bank;
     @Enumerated(EnumType.STRING)
     private Curr curr;
+    private String deviceCode;
 }

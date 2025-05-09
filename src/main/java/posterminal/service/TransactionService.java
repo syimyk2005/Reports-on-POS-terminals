@@ -1,18 +1,21 @@
-package posterminal.posterminal.service;
+package posterminal.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import posterminal.posterminal.exception.customExceptions.BalanceNotEnoughException;
-import posterminal.posterminal.exception.customExceptions.ScoreNotFoundException;
-import posterminal.posterminal.model.ABankScore;
-import posterminal.posterminal.model.BBankScore;
-import posterminal.posterminal.model.BankDto;
-import posterminal.posterminal.enums.BankEnum;
-import posterminal.posterminal.repository.ABankScoreRepository;
-import posterminal.posterminal.repository.BBankScoreRepository;
+import posterminal.exception.customExceptions.BalanceNotEnoughException;
+import posterminal.exception.customExceptions.ScoreNotFoundException;
+import posterminal.model.entity.ABankScore;
+import posterminal.model.entity.BBankScore;
+import posterminal.model.dto.PaymentDto;
+import posterminal.enums.BankEnum;
+import posterminal.model.entity.Transaction;
+import posterminal.repository.ABankScoreRepository;
+import posterminal.repository.BBankScoreRepository;
+import posterminal.repository.TransactionRepository;
+
+import java.time.LocalDateTime;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -22,17 +25,14 @@ public class TransactionService {
     private final ABankScoreRepository aBankRepository;
     private final BBankScoreRepository bBankRepository;
     private final PaymentSystem paySystemService;
-
-    @Value("${score.number}")
-    private String posTerminalNumber;
+    private final TransactionRepository transactionRepository;
 
     @Transactional
-    public void transaction(BankDto bankDto) {
+    public void transaction(PaymentDto bankDto) {
         if (bankDto.getBank() == BankEnum.BANK_A) {
             if (paySystemService.checkScoreBalanceA(bankDto)) {
-                log.info("Transferring {} from {} to {}", bankDto.getAmount(), bankDto.getNumber(), posTerminalNumber);
+                log.info("Transferring {} from {} to {}", bankDto.getAmount(), bankDto.getNumber(), bankDto.getDeviceCode());
                 transactionBetweenAAndA(bankDto);
-
             } else {
                 throw new BalanceNotEnoughException("Is not enough balance!");
             }
@@ -45,22 +45,26 @@ public class TransactionService {
         }
     }
 
-    public void transactionBetweenAAndA(BankDto bankDto) {
-        ABankScore aBankProducer = getABankScore(posTerminalNumber);
+    public void transactionBetweenAAndA(PaymentDto bankDto) {
+        ABankScore aBankProducer = getABankScore(bankDto.getDeviceCode());
         ABankScore aBankConsumer = getABankScore(bankDto.getNumber());
         aBankConsumer.setBalance(aBankConsumer.getBalance() - bankDto.getAmount());
         aBankProducer.setBalance(aBankProducer.getBalance() + bankDto.getAmount());
         aBankRepository.save(aBankProducer);
         aBankRepository.save(aBankConsumer);
+        Transaction transaction = new Transaction(LocalDateTime.now(), bankDto.getCurr(), bankDto.getAmount(), bankDto.getNumber(), bankDto.getDeviceCode());
+        transactionRepository.save(transaction);
     }
 
-    public void transactionBetweenAAndB(BankDto bankDto) {
-        ABankScore aBank = getABankScore(posTerminalNumber);
+    public void transactionBetweenAAndB(PaymentDto bankDto) {
+        ABankScore aBank = getABankScore(bankDto.getDeviceCode());
         BBankScore bBank = bBankRepository.findByNumberForUpdate(bankDto.getNumber()).orElseThrow(() -> new ScoreNotFoundException("Bank score B not found!"));
         bBank.setBalance(bBank.getBalance() - bankDto.getAmount());
         aBank.setBalance(aBank.getBalance() + bankDto.getAmount());
         bBankRepository.save(bBank);
         aBankRepository.save(aBank);
+        Transaction transaction = new Transaction(LocalDateTime.now(), bankDto.getCurr(), bankDto.getAmount(), bankDto.getNumber(), bankDto.getDeviceCode());
+        transactionRepository.save(transaction);
     }
 
     ABankScore getABankScore(String number) {

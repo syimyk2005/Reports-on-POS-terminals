@@ -1,4 +1,4 @@
-package posterminal.posterminal.enums;
+package posterminal.enums;
 
 public enum Curr {
     KGS, KZT, EUR, USD
